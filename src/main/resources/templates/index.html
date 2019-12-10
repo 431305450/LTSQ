@@ -31,9 +31,9 @@
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="https://github.com/login/oauth/authorize?client_id=Iv1.2cb5d517226208e9&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录 </a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我 <span class="caret"></span></a>
+                <div th:text="${session.guser}"></div>
+                <li class="dropdown" th:if="${session.guser!=null}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.guser.getName()}"> <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
@@ -41,6 +41,9 @@
 
                     </ul>
                 </li>
+                <li th:if=" ${session.guser==null}">
+                    <a href="https://github.com/login/oauth/authorize?client_id=Iv1.2cb5d517226208e9&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录 </a></li>
+
             </ul>
         </div>
     </div>
