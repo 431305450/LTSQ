@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class AuthorizeControllor {
     public String callback(@RequestParam(name="code")String code,
                            @RequestParam(name="state") String state,
                            HttpServletRequest request,
-                           HttpServletResponse response) throws IOException {//把上下文中的request放在request供我们使用
+                           HttpServletResponse response){//把上下文中的request放在request供我们使用
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
 //        githubProvider.getAccessToken(accessTokenDTO);
         accessTokenDTO.setCode(code);
@@ -53,6 +54,7 @@ public class AuthorizeControllor {
           user.setGmtModified(user.getGmtCreate());
           userMapper.insert(user);//把user写入数据库便相当于写入session
           //登陆成功，写入cookie和session
+            response.addCookie(new Cookie("token",token));
             request.getSession().setAttribute("guser",guser);//把user对象放到session里面
           return "redirect:index";
       }else{
